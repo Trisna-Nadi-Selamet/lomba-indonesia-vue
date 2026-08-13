@@ -619,16 +619,7 @@ onBeforeUnmount(() => {
         <button v-else class="mobile-reg desktop-register" @click="logout"><LogOut :size="15" /> Logout</button>
 
         <!-- HAMBURGER (animasi 3 garis -> X) -->
-        <button
-          type="button"
-          class="hamburger-btn"
-          :class="{ open: mobileMenuOpen }"
-          @click="mobileMenuOpen = !mobileMenuOpen"
-          aria-label="Buka menu"
-          :aria-expanded="mobileMenuOpen"
-        >
-          <span></span><span></span><span></span>
-        </button>
+        <button type="button" class="hamburger-btn" :class="{ open: mobileMenuOpen }" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Buka menu" :aria-expanded="mobileMenuOpen"><span></span><span></span><span></span></button>
 
         <!-- OVERLAY BACKDROP -->
         <Transition name="backdrop-fade">
@@ -644,8 +635,26 @@ onBeforeUnmount(() => {
             <button :class="{ active: activeTab === 'organizers' }" @click="goTo('organizers')"><ShieldCheck :size="17" /> Pengurus</button>
             <button :class="{ active: activeTab === 'members' }" @click="goTo('members')"><UserRound :size="17" /> Anggota</button>
             <div class="mobile-menu-divider"></div>
-            <button v-if="!isAdmin" class="mobile-menu-cta" @click="openRegistration(); closeMobileMenu()"><CheckCircle2 :size="17" /> Daftar Lomba</button>
-            <button v-else class="mobile-menu-cta" @click="logout(); closeMobileMenu()"><LogOut :size="17" /> Logout</button>
+            <button
+              v-if="!isAdmin"
+              class="mobile-menu-cta"
+              @click="
+                openRegistration();
+                closeMobileMenu();
+              "
+            >
+              <CheckCircle2 :size="17" /> Daftar Lomba
+            </button>
+            <button
+              v-else
+              class="mobile-menu-cta"
+              @click="
+                logout();
+                closeMobileMenu();
+              "
+            >
+              <LogOut :size="17" /> Logout
+            </button>
           </div>
         </Transition>
       </nav>
