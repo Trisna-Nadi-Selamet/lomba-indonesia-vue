@@ -331,6 +331,17 @@ function openRegistration(event = null) {
   showRegistration.value = true;
 }
 
+function downloadDocument() {
+  const link = document.createElement('a');
+
+  link.href = `${import.meta.env.BASE_URL}dokumen/PROPOSAL PENGAJUAN SUMBANGAN.docx`;
+  link.download = 'PROPOSAL PENGAJUAN SUMBANGAN.docx';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 async function submitRegistration() {
   const r = registration.value;
   if (!r.name.trim() || !r.phone.trim() || !r.eventId) return notify('Nama, nomor HP, dan lomba wajib diisi.');
@@ -670,6 +681,7 @@ onBeforeUnmount(() => {
             <!-- <span><ShieldCheck :size="14" /> Aman • Supabase</span> -->
           </div>
           <button class="primary" @click="openRegistration()"><CheckCircle2 :size="17" /> Daftar Sekarang</button>
+          &nbsp;<button class="primary" @click="downloadDocument()"><Download :size="17" /> Proposal Kami</button>
         </div>
         <div class="hero-date">
           <div class="big17">17<sup>TH</sup></div>
