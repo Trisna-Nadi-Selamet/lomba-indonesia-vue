@@ -694,7 +694,7 @@ onBeforeUnmount(() => window.clearInterval(timer.value));
       <form class="modal login-modal" @submit.prevent="login">
         <button type="button" class="close" @click="showLogin = false"><X /></button><span class="eyebrow">PANITIA</span>
         <h2>Login Admin</h2>
-        <p class="modal-note">Akun admin dibuat di Supabase Authentication. Data peserta tidak dibuka untuk pengunjung umum.</p>
+        <p class="modal-note">Akun admin dibuat Khusus Dengan Methode Authentication. Data peserta tidak dibuka untuk pengunjung umum.</p>
         <label>Email<input v-model="loginForm.email" type="email" autocomplete="email" required placeholder="admin@email.com" /></label
         ><label>Password<input v-model="loginForm.password" type="password" autocomplete="current-password" required /></label
         ><button class="primary full" type="submit" :disabled="authLoading"><LogIn :size="16" /> {{ authLoading ? 'Login...' : 'Login Admin' }}</button>
