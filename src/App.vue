@@ -583,7 +583,7 @@ onBeforeUnmount(() => window.clearInterval(timer.value));
             </table>
           </div>
           <div class="pagination">
-            <span>{{ totalParticipants }} peserta • 20 data per halaman • database Supabase</span>
+            <span>{{ totalParticipants }} peserta • 20 data per halaman</span>
             <div>
               <button class="icon-btn" :disabled="participantPage === 1 || participantLoading" @click="previousPage"><ChevronLeft /></button><b>Halaman {{ participantPage }} / {{ totalPages }}</b
               ><button class="icon-btn" :disabled="participantPage === totalPages || participantLoading" @click="nextPage"><ChevronRight /></button>
