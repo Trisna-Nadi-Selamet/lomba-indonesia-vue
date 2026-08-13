@@ -128,25 +128,104 @@ async function loadParticipants() {
   }
 }
 
+// function getEvent(id) {
+//   return events.value.find((e) => e.id === id);
+// }
+// function eventDateTime(event) {
+//   return new Date(`${event.date}T${event.startTime}:00`);
+// }
+// function countdown(event) {
+//   const diff = eventDateTime(event).getTime() - now.value.getTime();
+//   if (diff <= 0) return { expired: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
+//   const s = Math.floor(diff / 1000);
+//   return { expired: false, days: Math.floor(s / 86400), hours: Math.floor((s % 86400) / 3600), minutes: Math.floor((s % 3600) / 60), seconds: s % 60 };
+// }
+// function countdownText(event) {
+//   const c = countdown(event);
+//   if (c.expired) return 'DIMULAI';
+//   return `${c.days}h ${String(c.hours).padStart(2, '0')}j ${String(c.minutes).padStart(2, '0')}m ${String(c.seconds).padStart(2, '0')}d`;
+// }
+// function formatDate(date) {
+//   return new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium' }).format(new Date(date + 'T00:00:00'));
+// }
+
 function getEvent(id) {
   return events.value.find((e) => e.id === id);
 }
+
 function eventDateTime(event) {
-  return new Date(`${event.date}T${event.startTime}:00`);
+  if (!event?.date || !event?.startTime) {
+    return null;
+  }
+
+  // Ambil HH:mm dari nilai seperti 09:00 atau 09:00:00
+  const time = String(event.startTime).slice(0, 5);
+
+  // WIB UTC+7
+  const dateTime = new Date(`${event.date}T${time}:00+07:00`);
+
+  return Number.isNaN(dateTime.getTime()) ? null : dateTime;
 }
+
 function countdown(event) {
-  const diff = eventDateTime(event).getTime() - now.value.getTime();
-  if (diff <= 0) return { expired: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const target = eventDateTime(event);
+
+  if (!target) {
+    return {
+      expired: false,
+      invalid: true,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  const diff = target.getTime() - now.value.getTime();
+
+  if (diff <= 0) {
+    return {
+      expired: true,
+      invalid: false,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
   const s = Math.floor(diff / 1000);
-  return { expired: false, days: Math.floor(s / 86400), hours: Math.floor((s % 86400) / 3600), minutes: Math.floor((s % 3600) / 60), seconds: s % 60 };
+
+  return {
+    expired: false,
+    invalid: false,
+    days: Math.floor(s / 86400),
+    hours: Math.floor((s % 86400) / 3600),
+    minutes: Math.floor((s % 3600) / 60),
+    seconds: s % 60,
+  };
 }
+
 function countdownText(event) {
   const c = countdown(event);
-  if (c.expired) return 'DIMULAI';
+
+  if (c.invalid) {
+    return 'WAKTU BELUM DIATUR';
+  }
+
+  if (c.expired) {
+    return 'DIMULAI';
+  }
+
   return `${c.days}h ${String(c.hours).padStart(2, '0')}j ${String(c.minutes).padStart(2, '0')}m ${String(c.seconds).padStart(2, '0')}d`;
 }
+
 function formatDate(date) {
-  return new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium' }).format(new Date(date + 'T00:00:00'));
+  if (!date) return '-';
+
+  return new Intl.DateTimeFormat('id-ID', {
+    dateStyle: 'medium',
+  }).format(new Date(`${date}T00:00:00+07:00`));
 }
 
 function openRegistration(event = null) {
