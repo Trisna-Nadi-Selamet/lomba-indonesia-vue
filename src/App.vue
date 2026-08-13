@@ -331,15 +331,40 @@ function openRegistration(event = null) {
   showRegistration.value = true;
 }
 
-function downloadDocument() {
-  const link = document.createElement('a');
+async function downloadDocument() {
+  const fileName = 'PROPOSAL PENGAJUAN SUMBANGAN.docx';
 
-  link.href = `${import.meta.env.BASE_URL}dokumen/PROPOSAL PENGAJUAN SUMBANGAN.docx`;
-  link.download = 'PROPOSAL PENGAJUAN SUMBANGAN.docx';
+  const url = `${import.meta.env.BASE_URL}dokumen/${encodeURIComponent(fileName)}`;
 
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`File tidak ditemukan (${response.status})`);
+    }
+
+    const blob = await response.blob();
+
+    // Pastikan yang didownload bukan halaman HTML
+    if (blob.type.includes('text/html')) {
+      throw new Error('File yang diterima bukan dokumen Word.');
+    }
+
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error('Download error:', error);
+    alert('Dokumen gagal didownload. Periksa file di folder public/dokumen.');
+  }
 }
 
 async function submitRegistration() {
