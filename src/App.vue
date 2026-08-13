@@ -150,26 +150,88 @@ async function loadParticipants() {
 // }
 
 function getEvent(id) {
-  return events.value.find((e) => e.id === id);
+  return events.value.find((e) => String(e.id) === String(id));
 }
 
 function eventDateTime(event) {
-  if (!event?.date || !event?.startTime) {
+  if (!event) return null;
+
+  // Support dua format:
+  // Supabase : start_time
+  // Vue      : startTime
+  const dateValue = event.date;
+  const timeValue = event.startTime ?? event.start_time;
+
+  if (!dateValue || !timeValue) {
+    console.warn('Tanggal/jam lomba tidak tersedia:', event);
     return null;
   }
 
-  // Ambil HH:mm dari nilai seperti 09:00 atau 09:00:00
-  const time = String(event.startTime).slice(0, 5);
+  // Pastikan tanggal hanya YYYY-MM-DD
+  const dateText = String(dateValue).substring(0, 10);
 
-  // WIB UTC+7
-  const dateTime = new Date(`${event.date}T${time}:00+07:00`);
+  // Pastikan jam hanya HH:mm
+  const timeText = String(timeValue).substring(0, 5);
 
-  return Number.isNaN(dateTime.getTime()) ? null : dateTime;
+  const dateParts = dateText.split('-').map(Number);
+  const timeParts = timeText.split(':').map(Number);
+
+  const year = dateParts[0];
+  const month = dateParts[1];
+  const day = dateParts[2];
+
+  const hour = timeParts[0];
+  const minute = timeParts[1];
+
+  // Validasi
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day) || !Number.isInteger(hour) || !Number.isInteger(minute)) {
+    console.error('Format tanggal/jam tidak valid:', {
+      dateValue,
+      timeValue,
+    });
+
+    return null;
+  }
+
+  // Validasi range
+  if (month < 1 || month > 12 || day < 1 || day > 31 || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+    console.error('Nilai tanggal/jam tidak valid:', {
+      year,
+      month,
+      day,
+      hour,
+      minute,
+    });
+
+    return null;
+  }
+
+  /*
+   * Indonesia WIB = UTC+7.
+   *
+   * Date.UTC menggunakan UTC,
+   * jadi jam WIB dikurangi 7 jam.
+   */
+  const timestamp = Date.UTC(year, month - 1, day, hour - 7, minute, 0);
+
+  const result = new Date(timestamp);
+
+  if (Number.isNaN(result.getTime())) {
+    console.error('Gagal membuat tanggal:', {
+      dateText,
+      timeText,
+    });
+
+    return null;
+  }
+
+  return result;
 }
 
 function countdown(event) {
   const target = eventDateTime(event);
 
+  // Jangan pernah menghasilkan NaN
   if (!target) {
     return {
       expired: false,
@@ -181,7 +243,23 @@ function countdown(event) {
     };
   }
 
-  const diff = target.getTime() - now.value.getTime();
+  const current = now.value instanceof Date ? now.value : new Date();
+
+  const currentTime = current.getTime();
+  const targetTime = target.getTime();
+
+  if (Number.isNaN(currentTime) || Number.isNaN(targetTime)) {
+    return {
+      expired: false,
+      invalid: true,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  const diff = targetTime - currentTime;
 
   if (diff <= 0) {
     return {
@@ -194,15 +272,19 @@ function countdown(event) {
     };
   }
 
-  const s = Math.floor(diff / 1000);
+  const totalSeconds = Math.floor(diff / 1000);
 
   return {
     expired: false,
     invalid: false,
-    days: Math.floor(s / 86400),
-    hours: Math.floor((s % 86400) / 3600),
-    minutes: Math.floor((s % 3600) / 60),
-    seconds: s % 60,
+
+    days: Math.floor(totalSeconds / 86400),
+
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+
+    seconds: totalSeconds % 60,
   };
 }
 
@@ -223,9 +305,25 @@ function countdownText(event) {
 function formatDate(date) {
   if (!date) return '-';
 
+  const dateText = String(date).substring(0, 10);
+
+  const parts = dateText.split('-').map(Number);
+
+  if (parts.length !== 3 || parts.some((value) => !Number.isInteger(value))) {
+    return '-';
+  }
+
+  const [year, month, day] = parts;
+
+  const localDate = new Date(year, month - 1, day);
+
+  if (Number.isNaN(localDate.getTime())) {
+    return '-';
+  }
+
   return new Intl.DateTimeFormat('id-ID', {
     dateStyle: 'medium',
-  }).format(new Date(`${date}T00:00:00+07:00`));
+  }).format(localDate);
 }
 
 function openRegistration(event = null) {
