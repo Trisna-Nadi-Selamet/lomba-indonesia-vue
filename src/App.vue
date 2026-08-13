@@ -615,14 +615,15 @@ function closeMobileMenu() {
           </div>
         </div>
 
-        <!-- HAMBURGER MOBILE -->
-        <button class="hamburger" type="button" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen" aria-label="Buka menu">
+        <!-- HAMBURGER -->
+        <button class="hamburger" type="button" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen" aria-label="Menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <div class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
+        <!-- MENU -->
+        <div class="nav-links" :class="{ 'show-mobile': mobileMenuOpen }">
           <button
             :class="{ active: activeTab === 'home' }"
             @click="
@@ -694,7 +695,8 @@ function closeMobileMenu() {
             closeMobileMenu();
           "
         >
-          <LogOut :size="15" /> Logout
+          <LogOut :size="15" />
+          Logout
         </button>
       </nav>
 
