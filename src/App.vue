@@ -332,7 +332,7 @@ function openRegistration(event = null) {
 }
 
 async function downloadDocument() {
-  const fileName = 'PROPOSAL PENGAJUAN SUMBANGAN.docx';
+  const fileName = 'PROPOSAL PENGAJUAN SUMBANGAN.pdf';
 
   const url = `${import.meta.env.BASE_URL}dokumen/${encodeURIComponent(fileName)}`;
 
