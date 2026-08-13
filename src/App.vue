@@ -566,16 +566,27 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => window.clearInterval(timer.value));
+
+const mobileMenuOpen = ref(false);
+
+function toggleMobileMenu() {
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+}
+
+function closeMobileMenu() {
+  mobileMenuOpen.value = false;
+}
 </script>
 
 <template>
   <div class="app">
     <header class="hero">
-      <nav class="nav container">
+      <!-- <nav class="nav container">
         <div class="brand">
           <div class="brand-mark">17</div>
           <div><b>INDONESIA</b><small>INDEPENDENCE DAY</small></div>
         </div>
+        
         <div class="nav-links">
           <button :class="{ active: activeTab === 'home' }" @click="activeTab = 'home'">Home</button>
           <button :class="{ active: activeTab === 'events' }" @click="activeTab = 'events'">Lomba</button>
@@ -593,6 +604,98 @@ onBeforeUnmount(() => window.clearInterval(timer.value));
         </div>
         <button v-if="!isAdmin" class="mobile-reg" @click="openRegistration()">Daftar Lomba</button>
         <button v-else class="mobile-reg" @click="logout"><LogOut :size="15" /> Logout</button>
+      </nav> -->
+
+      <nav class="nav container">
+        <div class="brand">
+          <div class="brand-mark">17</div>
+          <div>
+            <b>INDONESIA</b>
+            <small>INDEPENDENCE DAY</small>
+          </div>
+        </div>
+
+        <!-- HAMBURGER MOBILE -->
+        <button class="hamburger" type="button" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen" aria-label="Buka menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
+          <button
+            :class="{ active: activeTab === 'home' }"
+            @click="
+              activeTab = 'home';
+              closeMobileMenu();
+            "
+          >
+            Home
+          </button>
+
+          <button
+            :class="{ active: activeTab === 'events' }"
+            @click="
+              activeTab = 'events';
+              closeMobileMenu();
+            "
+          >
+            Lomba
+          </button>
+
+          <button
+            :class="{ active: activeTab === 'participants' }"
+            @click="
+              activeTab = 'participants';
+              isAdmin ? loadParticipants() : null;
+              closeMobileMenu();
+            "
+          >
+            Peserta
+          </button>
+
+          <button
+            :class="{ active: activeTab === 'organizers' }"
+            @click="
+              activeTab = 'organizers';
+              closeMobileMenu();
+            "
+          >
+            Pengurus
+          </button>
+
+          <button
+            :class="{ active: activeTab === 'members' }"
+            @click="
+              activeTab = 'members';
+              closeMobileMenu();
+            "
+          >
+            Anggota
+          </button>
+        </div>
+
+        <button
+          v-if="!isAdmin"
+          class="mobile-reg"
+          @click="
+            openRegistration();
+            closeMobileMenu();
+          "
+        >
+          Daftar Lomba
+        </button>
+
+        <button
+          v-else
+          class="mobile-reg"
+          @click="
+            logout();
+            closeMobileMenu();
+          "
+        >
+          <LogOut :size="15" /> Logout
+        </button>
       </nav>
 
       <section class="hero-content container">

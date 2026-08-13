@@ -705,6 +705,73 @@ footer {
   gap: 5px;
   color: #bbb;
 }
+
+.hamburger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: auto;
+  background: currentColor;
+  border-radius: 3px;
+  transition: 0.25s ease;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+  }
+
+  .nav-menu.mobile-open {
+    display: flex;
+  }
+
+  .nav-menu button {
+    width: 100%;
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .mobile-reg {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1050px) {
   .hero {
     min-height: 590px;
