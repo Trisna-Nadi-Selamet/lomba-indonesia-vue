@@ -569,9 +569,9 @@ onBeforeUnmount(() => window.clearInterval(timer.value));
 
 const mobileMenuOpen = ref(false);
 
-function toggleMobileMenu() {
-  mobileMenuOpen.value = !mobileMenuOpen.value;
-}
+// function toggleMobileMenu() {
+//   mobileMenuOpen.value = !mobileMenuOpen.value;
+// }
 
 function closeMobileMenu() {
   mobileMenuOpen.value = false;
@@ -606,7 +606,7 @@ function closeMobileMenu() {
         <button v-else class="mobile-reg" @click="logout"><LogOut :size="15" /> Logout</button>
       </nav> -->
 
-      <nav class="nav container">
+      <nav class="nav container mobile-nav">
         <div class="brand">
           <div class="brand-mark">17</div>
           <div>
@@ -616,85 +616,101 @@ function closeMobileMenu() {
         </div>
 
         <!-- HAMBURGER -->
-        <button class="hamburger" type="button" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <button type="button" class="hamburger-btn" @click="mobileMenuOpen = !mobileMenuOpen">☰</button>
 
-        <!-- MENU -->
-        <div class="nav-links" :class="{ 'show-mobile': mobileMenuOpen }">
-          <button
-            :class="{ active: activeTab === 'home' }"
-            @click="
-              activeTab = 'home';
-              closeMobileMenu();
-            "
-          >
-            Home
-          </button>
+        <!-- DESKTOP MENU -->
+        <div class="nav-links desktop-menu">
+          <button :class="{ active: activeTab === 'home' }" @click="activeTab = 'home'">Home</button>
 
-          <button
-            :class="{ active: activeTab === 'events' }"
-            @click="
-              activeTab = 'events';
-              closeMobileMenu();
-            "
-          >
-            Lomba
-          </button>
+          <button :class="{ active: activeTab === 'events' }" @click="activeTab = 'events'">Lomba</button>
 
           <button
             :class="{ active: activeTab === 'participants' }"
             @click="
               activeTab = 'participants';
               isAdmin ? loadParticipants() : null;
-              closeMobileMenu();
+            "
+          >
+            Peserta
+          </button>
+
+          <button :class="{ active: activeTab === 'organizers' }" @click="activeTab = 'organizers'">Pengurus</button>
+
+          <button :class="{ active: activeTab === 'members' }" @click="activeTab = 'members'">Anggota</button>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div v-if="mobileMenuOpen" class="mobile-menu">
+          <button
+            @click="
+              activeTab = 'home';
+              mobileMenuOpen = false;
+            "
+          >
+            Home
+          </button>
+
+          <button
+            @click="
+              activeTab = 'events';
+              mobileMenuOpen = false;
+            "
+          >
+            Lomba
+          </button>
+
+          <button
+            @click="
+              activeTab = 'participants';
+              isAdmin ? loadParticipants() : null;
+              mobileMenuOpen = false;
             "
           >
             Peserta
           </button>
 
           <button
-            :class="{ active: activeTab === 'organizers' }"
             @click="
               activeTab = 'organizers';
-              closeMobileMenu();
+              mobileMenuOpen = false;
             "
           >
             Pengurus
           </button>
 
           <button
-            :class="{ active: activeTab === 'members' }"
             @click="
               activeTab = 'members';
-              closeMobileMenu();
+              mobileMenuOpen = false;
             "
           >
             Anggota
           </button>
+
+          <button
+            v-if="!isAdmin"
+            @click="
+              openRegistration();
+              mobileMenuOpen = false;
+            "
+          >
+            Daftar Lomba
+          </button>
+
+          <button
+            v-else
+            @click="
+              logout();
+              mobileMenuOpen = false;
+            "
+          >
+            Logout
+          </button>
         </div>
 
-        <button
-          v-if="!isAdmin"
-          class="mobile-reg"
-          @click="
-            openRegistration();
-            closeMobileMenu();
-          "
-        >
-          Daftar Lomba
-        </button>
+        <button v-if="!isAdmin" class="mobile-reg desktop-register" @click="openRegistration()">Daftar Lomba</button>
 
-        <button
-          v-else
-          class="mobile-reg"
-          @click="
-            logout();
-            closeMobileMenu();
-          "
-        >
+        <button v-else class="mobile-reg desktop-register" @click="logout">
           <LogOut :size="15" />
           Logout
         </button>
