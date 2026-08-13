@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { CalendarDays, Users, UserRound, Trophy, Search, Download, Upload, Plus, X, ChevronLeft, ChevronRight, Clock3, MapPin, CheckCircle2, Trash2, Edit3, Database, ShieldCheck, LogIn, LogOut, RefreshCw } from 'lucide-vue-next';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { Home, CalendarDays, Users, UserRound, Trophy, Search, Download, Upload, Plus, X, ChevronLeft, ChevronRight, Clock3, MapPin, CheckCircle2, Trash2, Edit3, Database, ShieldCheck, LogIn, LogOut, RefreshCw } from 'lucide-vue-next';
 import { supabase } from './supabase';
 
 const activeTab = ref('home');
@@ -569,43 +569,34 @@ onBeforeUnmount(() => window.clearInterval(timer.value));
 
 const mobileMenuOpen = ref(false);
 
-// function toggleMobileMenu() {
-//   mobileMenuOpen.value = !mobileMenuOpen.value;
-// }
-
 function closeMobileMenu() {
   mobileMenuOpen.value = false;
 }
+
+function goTo(tab) {
+  activeTab.value = tab;
+  if (tab === 'participants' && isAdmin.value) loadParticipants();
+  closeMobileMenu();
+}
+
+// Kunci scroll body saat menu mobile terbuka + tutup dengan tombol Escape
+watch(mobileMenuOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+function handleKeydown(e) {
+  if (e.key === 'Escape') closeMobileMenu();
+}
+onMounted(() => window.addEventListener('keydown', handleKeydown));
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown);
+  document.body.style.overflow = '';
+});
 </script>
 
 <template>
   <div class="app">
     <header class="hero">
-      <!-- <nav class="nav container">
-        <div class="brand">
-          <div class="brand-mark">17</div>
-          <div><b>INDONESIA</b><small>INDEPENDENCE DAY</small></div>
-        </div>
-        
-        <div class="nav-links">
-          <button :class="{ active: activeTab === 'home' }" @click="activeTab = 'home'">Home</button>
-          <button :class="{ active: activeTab === 'events' }" @click="activeTab = 'events'">Lomba</button>
-          <button
-            :class="{ active: activeTab === 'participants' }"
-            @click="
-              activeTab = 'participants';
-              isAdmin ? loadParticipants() : null;
-            "
-          >
-            Peserta
-          </button>
-          <button :class="{ active: activeTab === 'organizers' }" @click="activeTab = 'organizers'">Pengurus</button>
-          <button :class="{ active: activeTab === 'members' }" @click="activeTab = 'members'">Anggota</button>
-        </div>
-        <button v-if="!isAdmin" class="mobile-reg" @click="openRegistration()">Daftar Lomba</button>
-        <button v-else class="mobile-reg" @click="logout"><LogOut :size="15" /> Logout</button>
-      </nav> -->
-
       <nav class="nav container mobile-nav">
         <div class="brand">
           <div class="brand-mark">17</div>
@@ -615,105 +606,48 @@ function closeMobileMenu() {
           </div>
         </div>
 
-        <!-- HAMBURGER -->
-        <button type="button" class="hamburger-btn" @click="mobileMenuOpen = !mobileMenuOpen">☰</button>
-
         <!-- DESKTOP MENU -->
         <div class="nav-links desktop-menu">
-          <button :class="{ active: activeTab === 'home' }" @click="activeTab = 'home'">Home</button>
-
-          <button :class="{ active: activeTab === 'events' }" @click="activeTab = 'events'">Lomba</button>
-
-          <button
-            :class="{ active: activeTab === 'participants' }"
-            @click="
-              activeTab = 'participants';
-              isAdmin ? loadParticipants() : null;
-            "
-          >
-            Peserta
-          </button>
-
-          <button :class="{ active: activeTab === 'organizers' }" @click="activeTab = 'organizers'">Pengurus</button>
-
-          <button :class="{ active: activeTab === 'members' }" @click="activeTab = 'members'">Anggota</button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div v-if="mobileMenuOpen" class="mobile-menu">
-          <button
-            @click="
-              activeTab = 'home';
-              mobileMenuOpen = false;
-            "
-          >
-            Home
-          </button>
-
-          <button
-            @click="
-              activeTab = 'events';
-              mobileMenuOpen = false;
-            "
-          >
-            Lomba
-          </button>
-
-          <button
-            @click="
-              activeTab = 'participants';
-              isAdmin ? loadParticipants() : null;
-              mobileMenuOpen = false;
-            "
-          >
-            Peserta
-          </button>
-
-          <button
-            @click="
-              activeTab = 'organizers';
-              mobileMenuOpen = false;
-            "
-          >
-            Pengurus
-          </button>
-
-          <button
-            @click="
-              activeTab = 'members';
-              mobileMenuOpen = false;
-            "
-          >
-            Anggota
-          </button>
-
-          <button
-            v-if="!isAdmin"
-            @click="
-              openRegistration();
-              mobileMenuOpen = false;
-            "
-          >
-            Daftar Lomba
-          </button>
-
-          <button
-            v-else
-            @click="
-              logout();
-              mobileMenuOpen = false;
-            "
-          >
-            Logout
-          </button>
+          <button :class="{ active: activeTab === 'home' }" @click="goTo('home')">Home</button>
+          <button :class="{ active: activeTab === 'events' }" @click="goTo('events')">Lomba</button>
+          <button :class="{ active: activeTab === 'participants' }" @click="goTo('participants')">Peserta</button>
+          <button :class="{ active: activeTab === 'organizers' }" @click="goTo('organizers')">Pengurus</button>
+          <button :class="{ active: activeTab === 'members' }" @click="goTo('members')">Anggota</button>
         </div>
 
         <button v-if="!isAdmin" class="mobile-reg desktop-register" @click="openRegistration()">Daftar Lomba</button>
+        <button v-else class="mobile-reg desktop-register" @click="logout"><LogOut :size="15" /> Logout</button>
 
-        <button v-else class="mobile-reg desktop-register" @click="logout">
-          <LogOut :size="15" />
-          Logout
+        <!-- HAMBURGER (animasi 3 garis -> X) -->
+        <button
+          type="button"
+          class="hamburger-btn"
+          :class="{ open: mobileMenuOpen }"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+          aria-label="Buka menu"
+          :aria-expanded="mobileMenuOpen"
+        >
+          <span></span><span></span><span></span>
         </button>
+
+        <!-- OVERLAY BACKDROP -->
+        <Transition name="backdrop-fade">
+          <div v-if="mobileMenuOpen" class="mobile-backdrop" @click="closeMobileMenu"></div>
+        </Transition>
+
+        <!-- MOBILE MENU (slide + fade) -->
+        <Transition name="menu-slide">
+          <div v-if="mobileMenuOpen" class="mobile-menu">
+            <button :class="{ active: activeTab === 'home' }" @click="goTo('home')"><Home :size="17" /> Home</button>
+            <button :class="{ active: activeTab === 'events' }" @click="goTo('events')"><Trophy :size="17" /> Lomba</button>
+            <button :class="{ active: activeTab === 'participants' }" @click="goTo('participants')"><Users :size="17" /> Peserta</button>
+            <button :class="{ active: activeTab === 'organizers' }" @click="goTo('organizers')"><ShieldCheck :size="17" /> Pengurus</button>
+            <button :class="{ active: activeTab === 'members' }" @click="goTo('members')"><UserRound :size="17" /> Anggota</button>
+            <div class="mobile-menu-divider"></div>
+            <button v-if="!isAdmin" class="mobile-menu-cta" @click="openRegistration(); closeMobileMenu()"><CheckCircle2 :size="17" /> Daftar Lomba</button>
+            <button v-else class="mobile-menu-cta" @click="logout(); closeMobileMenu()"><LogOut :size="17" /> Logout</button>
+          </div>
+        </Transition>
       </nav>
 
       <section class="hero-content container">
@@ -743,7 +677,7 @@ function closeMobileMenu() {
         <Database :size="17" /><span>{{ errorMessage }} Pastikan URL dan key Supabase sudah diatur.</span><button class="outline" @click="loadPublicData"><RefreshCw :size="14" /> Coba Lagi</button>
       </div>
 
-      <section v-if="activeTab === 'home'">
+      <section v-if="activeTab === 'home'" class="tab-fade">
         <div class="section-head">
           <div>
             <span class="eyebrow">LIVE COUNTDOWN</span>
@@ -788,7 +722,7 @@ function closeMobileMenu() {
         </div>
       </section>
 
-      <section v-if="activeTab === 'events'">
+      <section v-if="activeTab === 'events'" class="tab-fade">
         <div class="section-head">
           <div>
             <span class="eyebrow">MANAGEMENT</span>
@@ -818,7 +752,7 @@ function closeMobileMenu() {
         </div>
       </section>
 
-      <section v-if="activeTab === 'participants'">
+      <section v-if="activeTab === 'participants'" class="tab-fade">
         <div v-if="!isAdmin" class="admin-gate">
           <ShieldCheck :size="34" />
           <h2>Data peserta adalah area panitia</h2>
@@ -890,7 +824,7 @@ function closeMobileMenu() {
         </template>
       </section>
 
-      <section v-if="activeTab === 'organizers'">
+      <section v-if="activeTab === 'organizers'" class="tab-fade">
         <div class="section-head">
           <div>
             <span class="eyebrow">TEAM</span>
@@ -908,7 +842,7 @@ function closeMobileMenu() {
           </div>
         </div>
       </section>
-      <section v-if="activeTab === 'members'">
+      <section v-if="activeTab === 'members'" class="tab-fade">
         <div class="section-head">
           <div>
             <span class="eyebrow">COMMUNITY</span>
@@ -939,66 +873,74 @@ function closeMobileMenu() {
       </div>
     </footer>
 
-    <div v-if="showRegistration" class="modal-backdrop" @click.self="showRegistration = false">
-      <form class="modal" @submit.prevent="submitRegistration">
-        <button type="button" class="close" @click="showRegistration = false"><X /></button><span class="eyebrow">FORM PENDAFTARAN</span>
-        <h2>Daftar Perlombaan</h2>
-        <label>Nama Lengkap<input v-model="registration.name" required maxlength="80" placeholder="Nama peserta" /></label
-        ><label>No. HP<input v-model="registration.phone" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" /></label>
-        <div class="two">
-          <label>Kelompok/RT<input v-model="registration.group" maxlength="50" placeholder="RT 01" /></label><label>Usia<input v-model="registration.age" type="number" min="1" max="120" /></label>
-        </div>
-        <label
-          >Lomba<select v-model="registration.eventId" required>
-            <option v-for="e in events" :value="e.id" :key="e.id" :disabled="e.status !== 'open' || (eventCounts[e.id] || 0) >= e.quota">{{ e.name }} — {{ formatDate(e.date) }} {{ e.status !== 'open' ? '(Ditutup)' : '' }}</option>
-          </select></label
-        >
-        <label>Alamat<textarea v-model="registration.address" maxlength="200" rows="2"></textarea></label
-        ><button class="primary full" type="submit" :disabled="authLoading"><CheckCircle2 :size="17" /> {{ authLoading ? 'Menyimpan...' : 'Simpan Pendaftaran' }}</button>
-      </form>
-    </div>
-
-    <div v-if="showEventForm" class="modal-backdrop" @click.self="showEventForm = false">
-      <form class="modal" @submit.prevent="saveEvent">
-        <button type="button" class="close" @click="showEventForm = false"><X /></button><span class="eyebrow">MANAGEMENT LOMBA</span>
-        <h2>{{ editingEvent ? 'Edit' : 'Tambah' }} Perlombaan</h2>
-        <label>Nama Lomba<input v-model="eventForm.name" required maxlength="80" /></label>
-        <div class="two">
+    <Transition name="modal-fade">
+      <div v-if="showRegistration" class="modal-backdrop" @click.self="showRegistration = false">
+        <form class="modal" @submit.prevent="submitRegistration">
+          <button type="button" class="close" @click="showRegistration = false"><X /></button><span class="eyebrow">FORM PENDAFTARAN</span>
+          <h2>Daftar Perlombaan</h2>
+          <label>Nama Lengkap<input v-model="registration.name" required maxlength="80" placeholder="Nama peserta" /></label
+          ><label>No. HP<input v-model="registration.phone" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" /></label>
+          <div class="two">
+            <label>Kelompok/RT<input v-model="registration.group" maxlength="50" placeholder="RT 01" /></label><label>Usia<input v-model="registration.age" type="number" min="1" max="120" /></label>
+          </div>
           <label
-            >Kategori<select v-model="eventForm.category">
-              <option>Anak-anak</option>
-              <option>Remaja</option>
-              <option>Dewasa</option>
-              <option>Keluarga</option>
-              <option>Umum</option>
+            >Lomba<select v-model="registration.eventId" required>
+              <option v-for="e in events" :value="e.id" :key="e.id" :disabled="e.status !== 'open' || (eventCounts[e.id] || 0) >= e.quota">{{ e.name }} — {{ formatDate(e.date) }} {{ e.status !== 'open' ? '(Ditutup)' : '' }}</option>
             </select></label
-          ><label>Kuota<input v-model="eventForm.quota" type="number" min="1" max="10000" /></label>
-        </div>
-        <div class="two">
-          <label>Tanggal<input v-model="eventForm.date" type="date" required /></label><label>Jam Mulai<input v-model="eventForm.startTime" type="time" required /></label>
-        </div>
-        <label>Nama Lokasi<input v-model="eventForm.location" required maxlength="100" placeholder="Lapangan Utama" /></label
-        ><label>Alamat Lengkap Perlombaan<input v-model="eventForm.address" required maxlength="180" placeholder="Jl. Kemerdekaan No. 17, Kelurahan..." /></label
-        ><label
-          >Status<select v-model="eventForm.status">
-            <option value="open">Dibuka</option>
-            <option value="closed">Ditutup</option>
-          </select></label
-        ><button class="primary full" type="submit">Simpan Lomba</button>
-      </form>
-    </div>
+          >
+          <label>Alamat<textarea v-model="registration.address" maxlength="200" rows="2"></textarea></label
+          ><button class="primary full" type="submit" :disabled="authLoading"><CheckCircle2 :size="17" /> {{ authLoading ? 'Menyimpan...' : 'Simpan Pendaftaran' }}</button>
+        </form>
+      </div>
+    </Transition>
 
-    <div v-if="showLogin" class="modal-backdrop" @click.self="showLogin = false">
-      <form class="modal login-modal" @submit.prevent="login">
-        <button type="button" class="close" @click="showLogin = false"><X /></button><span class="eyebrow">PANITIA</span>
-        <h2>Login Admin</h2>
-        <p class="modal-note">Akun admin dibuat Khusus Dengan Methode Authentication. Data peserta tidak dibuka untuk pengunjung umum.</p>
-        <label>Email<input v-model="loginForm.email" type="email" autocomplete="email" required placeholder="admin@email.com" /></label
-        ><label>Password<input v-model="loginForm.password" type="password" autocomplete="current-password" required /></label
-        ><button class="primary full" type="submit" :disabled="authLoading"><LogIn :size="16" /> {{ authLoading ? 'Login...' : 'Login Admin' }}</button>
-      </form>
-    </div>
+    <Transition name="modal-fade">
+      <div v-if="showEventForm" class="modal-backdrop" @click.self="showEventForm = false">
+        <form class="modal" @submit.prevent="saveEvent">
+          <button type="button" class="close" @click="showEventForm = false"><X /></button><span class="eyebrow">MANAGEMENT LOMBA</span>
+          <h2>{{ editingEvent ? 'Edit' : 'Tambah' }} Perlombaan</h2>
+          <label>Nama Lomba<input v-model="eventForm.name" required maxlength="80" /></label>
+          <div class="two">
+            <label
+              >Kategori<select v-model="eventForm.category">
+                <option>Anak-anak</option>
+                <option>Remaja</option>
+                <option>Dewasa</option>
+                <option>Keluarga</option>
+                <option>Umum</option>
+              </select></label
+            ><label>Kuota<input v-model="eventForm.quota" type="number" min="1" max="10000" /></label>
+          </div>
+          <div class="two">
+            <label>Tanggal<input v-model="eventForm.date" type="date" required /></label><label>Jam Mulai<input v-model="eventForm.startTime" type="time" required /></label>
+          </div>
+          <label>Nama Lokasi<input v-model="eventForm.location" required maxlength="100" placeholder="Lapangan Utama" /></label
+          ><label>Alamat Lengkap Perlombaan<input v-model="eventForm.address" required maxlength="180" placeholder="Jl. Kemerdekaan No. 17, Kelurahan..." /></label
+          ><label
+            >Status<select v-model="eventForm.status">
+              <option value="open">Dibuka</option>
+              <option value="closed">Ditutup</option>
+            </select></label
+          ><button class="primary full" type="submit">Simpan Lomba</button>
+        </form>
+      </div>
+    </Transition>
 
-    <div v-if="toast" class="toast">{{ toast }}</div>
+    <Transition name="modal-fade">
+      <div v-if="showLogin" class="modal-backdrop" @click.self="showLogin = false">
+        <form class="modal login-modal" @submit.prevent="login">
+          <button type="button" class="close" @click="showLogin = false"><X /></button><span class="eyebrow">PANITIA</span>
+          <h2>Login Admin</h2>
+          <p class="modal-note">Akun admin dibuat Khusus Dengan Methode Authentication. Data peserta tidak dibuka untuk pengunjung umum.</p>
+          <label>Email<input v-model="loginForm.email" type="email" autocomplete="email" required placeholder="admin@email.com" /></label
+          ><label>Password<input v-model="loginForm.password" type="password" autocomplete="current-password" required /></label
+          ><button class="primary full" type="submit" :disabled="authLoading"><LogIn :size="16" /> {{ authLoading ? 'Login...' : 'Login Admin' }}</button>
+        </form>
+      </div>
+    </Transition>
+
+    <Transition name="toast-pop">
+      <div v-if="toast" class="toast">{{ toast }}</div>
+    </Transition>
   </div>
 </template>
