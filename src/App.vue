@@ -661,7 +661,7 @@ onBeforeUnmount(() => {
 
       <section class="hero-content container">
         <div class="hero-copy">
-          <p class="eyebrow">HEROIC EVENT • FREE ENTRY • 10AM</p>
+          <p class="eyebrow">HEROIC EVENT • FREE ENTRY</p>
           <h1>MERDEKA<br /><span>INDONESIA</span></h1>
           <h2>INDEPENDENCE DAY</h2>
           <p>Daftarkan diri untuk mengikuti perlombaan 17 Agustus. Pendaftaran langsung tersimpan di database dan dapat dikelola panitia.</p>
