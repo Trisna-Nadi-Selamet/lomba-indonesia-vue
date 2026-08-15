@@ -927,7 +927,7 @@ onBeforeUnmount(() => {
           <label>Nama Lengkap<input v-model="registration.name" required maxlength="80" placeholder="Nama peserta" /></label
           ><label>No. HP<input v-model="registration.phone" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" /></label>
           <div class="two">
-            <label>Kelompok/RT<input v-model="registration.group" maxlength="50" placeholder="RT 01" /></label><label>Usia<input v-model="registration.age" type="number" min="1" max="120" /></label>
+            <label>Kelompok/RT<input v-model="registration.group" maxlength="50" placeholder="RT 02 / RW 05" /></label><label>Usia<input v-model="registration.age" type="number" min="1" max="120" /></label>
           </div>
           <label
             >Lomba<select v-model="registration.eventId" required>
