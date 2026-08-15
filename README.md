@@ -24,7 +24,7 @@ Template pendaftaran lomba 17 Agustus dengan desain merah-putih yang mengikuti r
 ## Alamat perlombaan
 Setiap perlombaan mempunyai dua informasi lokasi:
 - Nama lokasi, contoh: `Lapangan Utama`
-- Alamat lengkap, contoh: `Jl. Kemerdekaan No. 17, Kelurahan Setempat`
+- Alamat lengkap, contoh: `Jl. Anggrek Kp. Tegalwaru `
 
 Kolom alamat juga tampil pada kartu perlombaan dan dapat diedit admin.
 
