@@ -912,7 +912,7 @@ onBeforeUnmount(() => {
       <div class="container footer-main">
         <div><b>MERDEKA INDONESIA</b><span>Sistem Pendaftaran Lomba 17 Agustus 2026, Kp. Anggrek Tegalwaru Rt 02 Rw 05 Desa Tegalwaru Ciampea Bogor</span></div>
         <div class="footer-credit">
-          <span>Design Web Fpg Digital Solution <strong>By Trisna Nadi Selamet || 0812-9438-8977</strong></span>
+          <span>Design Web Fpg Digital Solution <strong>By Trisna Nadi Selamet : 0812-9438-8977</strong></span>
           <!-- <span class="footer-badge">Responsive</span>
           <span class="footer-badge">Modern Web</span> -->
         </div>
