@@ -751,7 +751,7 @@ onBeforeUnmount(() => {
         <div class="stats">
           <div>
             <Trophy /><strong>{{ dashboardStats.events }}</strong
-            ><span>Perlombaan</span>
+            ><span>PERLOMBAAN</span>
           </div>
           <div>
             <Users /><strong>{{ dashboardStats.participants || '—' }}</strong
@@ -759,11 +759,11 @@ onBeforeUnmount(() => {
           </div>
           <div>
             <ShieldCheck /><strong>{{ dashboardStats.organizers }}</strong
-            ><span>Pengurus</span>
+            ><span>PENGURUS</span>
           </div>
           <div>
             <UserRound /><strong>{{ dashboardStats.members }}</strong
-            ><span>Anggota</span>
+            ><span>ANGGOTA</span>
           </div>
         </div>
       </section>
@@ -892,7 +892,7 @@ onBeforeUnmount(() => {
         <div class="section-head">
           <div>
             <span class="eyebrow">COMMUNITY</span>
-            <h2>Daftar Anggota</h2>
+            <h2>DAFTAR ANGGOTA</h2>
           </div>
         </div>
         <div class="people-grid">
@@ -913,8 +913,8 @@ onBeforeUnmount(() => {
         <div><b>MERDEKA INDONESIA</b><span>Sistem Pendaftaran Lomba 17 Agustus 2026, Kp. Anggrek Tegalwaru Rt 02 Rw 05 Desa Tegalwaru Ciampea Bogor</span></div>
         <div class="footer-credit">
           <span>Design Web Fpg Digital Solution <strong>By Trisna Nadi Selamet || 0812-9438-8977</strong></span>
-          <span class="footer-badge">Responsive</span>
-          <span class="footer-badge">Modern Web</span>
+          <!-- <span class="footer-badge">Responsive</span>
+          <span class="footer-badge">Modern Web</span> -->
         </div>
       </div>
     </footer>
