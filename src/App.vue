@@ -755,7 +755,7 @@ onBeforeUnmount(() => {
           </div>
           <div>
             <Users /><strong>{{ dashboardStats.participants || '—' }}</strong
-            ><span>Peserta{{ isAdmin ? ' Terdaftar' : '' }}</span>
+            ><span>PESERTA{{ isAdmin ? ' Terdaftar' : '' }}</span>
           </div>
           <div>
             <ShieldCheck /><strong>{{ dashboardStats.organizers }}</strong
