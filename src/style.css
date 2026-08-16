@@ -1011,6 +1011,104 @@ footer {
   }
 }
 
+/* =====================================
+   FIX PAGINATION LOMBA - HORIZONTAL
+===================================== */
+
+.event-pagination {
+  width: 100% !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  flex-wrap: nowrap !important;
+
+  gap: 8px !important;
+
+  margin: 28px auto 10px !important;
+  padding: 0 !important;
+}
+
+/* SEMUA TOMBOL PAGINATION */
+.event-pagination .page-btn {
+  display: inline-flex !important;
+
+  flex: 0 0 auto !important;
+
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+
+  height: 40px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+  .event-pagination {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-wrap: nowrap !important;
+
+    gap: 6px !important;
+
+    margin: 20px auto !important;
+    padding: 0 !important;
+  }
+
+  .event-pagination .page-btn {
+    display: inline-flex !important;
+
+    flex: 0 0 34px !important;
+
+    width: 34px !important;
+    min-width: 34px !important;
+    max-width: 34px !important;
+
+    height: 34px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* =====================================
+   HP SANGAT KECIL
+===================================== */
+
+@media (max-width: 360px) {
+  .event-pagination {
+    gap: 5px !important;
+  }
+
+  .event-pagination .page-btn {
+    flex: 0 0 32px !important;
+
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+
+    height: 32px !important;
+  }
+}
+
 /* ============ MOBILE MENU PANEL ============ */
 .mobile-menu {
   display: flex;

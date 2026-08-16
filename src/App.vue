@@ -2017,18 +2017,10 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- PAGINATION LOMBA -->
-        <div v-if="eventTotalPages > 1" class="pagination">
+        <div v-if="eventTotalPages > 1" class="pagination event-pagination">
           <button class="page-btn" :disabled="eventPage === 1" @click="changeEventPage(eventPage - 1)">‹</button>
 
-          <button
-            v-for="page in eventTotalPages"
-            :key="page"
-            class="page-btn"
-            :class="{
-              active: eventPage === page,
-            }"
-            @click="changeEventPage(page)"
-          >
+          <button v-for="page in eventTotalPages" :key="page" class="page-btn" :class="{ active: eventPage === page }" @click="changeEventPage(page)">
             {{ page }}
           </button>
 
