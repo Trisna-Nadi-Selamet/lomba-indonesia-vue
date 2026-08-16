@@ -1,17 +1,17 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-
-const repo = process.env.GITHUB_REPOSITORY?.split('/')[1];
-
-export default defineConfig({
-  plugins: [vue()],
-  base: process.env.GITHUB_ACTIONS && repo ? `/${repo}/` : '/',
-});
-
 // import { defineConfig } from 'vite';
 // import vue from '@vitejs/plugin-vue';
 
+// const repo = process.env.GITHUB_REPOSITORY?.split('/')[1];
+
 // export default defineConfig({
 //   plugins: [vue()],
-//   base: '/',
+//   base: process.env.GITHUB_ACTIONS && repo ? `/${repo}/` : '/',
 // });
+
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+  plugins: [vue()],
+  base: '/',
+});
