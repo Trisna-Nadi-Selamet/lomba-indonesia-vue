@@ -698,7 +698,7 @@ const totalPages = computed(() => Math.max(1, Math.ceil(totalParticipants.value 
 ========================= */
 
 const eventPage = ref(1);
-const eventPageSize = 6;
+const eventPageSize = 4;
 
 const paginatedEvents = computed(() => {
   const start = (eventPage.value - 1) * eventPageSize;
