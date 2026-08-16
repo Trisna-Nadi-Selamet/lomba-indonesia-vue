@@ -773,7 +773,8 @@ footer {
   z-index: 55;
 }
 
-/*=========== PAGING =======*/
+/* ==============PAGINATION========================= */
+
 /* =========================
    PAGINATION
 ========================= */
@@ -859,6 +860,25 @@ footer {
 }
 
 /* =========================
+   PAGINATION LOMBA
+   SELALU HORIZONTAL
+========================= */
+
+.event-pagination {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  width: 100%;
+  gap: 8px;
+}
+
+.event-pagination .page-btn {
+  flex: 0 0 auto;
+}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -875,6 +895,24 @@ footer {
     padding: 0 9px;
     border-radius: 7px;
     font-size: 13px;
+  }
+
+  /* Pagination lomba tetap menyamping */
+  .event-pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .event-pagination .page-btn {
+    flex: 0 0 36px;
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
   }
 }
 
@@ -893,6 +931,26 @@ footer {
     height: 34px;
     padding: 0 8px;
     font-size: 12px;
+  }
+
+  /* Pagination lomba */
+  .event-pagination {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .event-pagination .page-btn {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    padding: 0;
   }
 
   /* Pagination peserta */
@@ -928,6 +986,23 @@ footer {
     height: 32px;
     padding: 0 7px;
     font-size: 12px;
+  }
+
+  /* Pagination lomba */
+  .event-pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 5px;
+  }
+
+  .event-pagination .page-btn {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    padding: 0;
   }
 
   .pagination > div b {
