@@ -717,11 +717,6 @@ function changeEventPage(page) {
   }
 
   eventPage.value = page;
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
 }
 
 /* =========================
