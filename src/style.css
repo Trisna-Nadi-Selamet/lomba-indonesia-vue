@@ -774,39 +774,166 @@ footer {
 }
 
 /*=========== PAGING =======*/
+/* =========================
+   PAGINATION
+========================= */
+
 .pagination {
+  width: 100%;
+  margin: 28px 0 10px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin: 30px 0;
+  flex-wrap: wrap;
 }
 
 .page-btn {
-  min-width: 38px;
-  height: 38px;
-  padding: 0 10px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   border: 1px solid #ddd;
-  background: #fff;
   border-radius: 8px;
-  cursor: pointer;
+
+  background: #fff;
+  color: #333;
+
   font-size: 14px;
-  transition: 0.2s;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .page-btn:hover:not(:disabled) {
   background: #f5f5f5;
+  border-color: #c91524;
+  color: #c91524;
+  transform: translateY(-1px);
 }
 
 .page-btn.active {
   background: #c91524;
-  color: #fff;
   border-color: #c91524;
+  color: #fff;
 }
 
 .page-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================
+   PAGINATION PESERTA
+========================= */
+
+.pagination > span {
+  font-size: 13px;
+  color: #777;
+  margin-right: 12px;
+}
+
+.pagination > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination > div b {
+  min-width: 110px;
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .pagination {
+    margin-top: 22px;
+    gap: 6px;
+    padding: 0 10px;
+  }
+
+  .page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 9px;
+    border-radius: 7px;
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   HP KECIL
+========================= */
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 5px;
+    margin-top: 20px;
+  }
+
+  .page-btn {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  /* Pagination peserta */
+  .pagination > span {
+    width: 100%;
+    margin: 0 0 8px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .pagination > div {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .pagination > div b {
+    min-width: 95px;
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   HP SANGAT KECIL
+========================= */
+
+@media (max-width: 360px) {
+  .pagination {
+    gap: 4px;
+  }
+
+  .page-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 7px;
+    font-size: 12px;
+  }
+
+  .pagination > div b {
+    min-width: 85px;
+    font-size: 11px;
+  }
 }
 
 /* ============ MOBILE MENU PANEL ============ */

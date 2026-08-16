@@ -2285,7 +2285,7 @@ onBeforeUnmount(() => {
         <div class="footer-credit">
           <span>
             Design Web Fpg Digital Solution
-            <strong> By Trisna Nadi Selamet 0812-9438-8977 </strong>
+            <strong> By Trisna Nadi Selamet 0812-9438-8977. </strong>
           </span>
         </div>
       </div>
