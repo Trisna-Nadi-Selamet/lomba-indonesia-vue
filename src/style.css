@@ -774,243 +774,6 @@ footer {
 }
 
 /* ==============PAGINATION========================= */
-
-/* =========================
-   PAGINATION
-========================= */
-
-.pagination {
-  width: 100%;
-  margin: 28px 0 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.page-btn {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid #ddd;
-  border-radius: 8px;
-
-  background: #fff;
-  color: #333;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.page-btn:hover:not(:disabled) {
-  background: #f5f5f5;
-  border-color: #c91524;
-  color: #c91524;
-  transform: translateY(-1px);
-}
-
-.page-btn.active {
-  background: #c91524;
-  border-color: #c91524;
-  color: #fff;
-}
-
-.page-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* =========================
-   PAGINATION PESERTA
-========================= */
-
-.pagination > span {
-  font-size: 13px;
-  color: #777;
-  margin-right: 12px;
-}
-
-.pagination > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.pagination > div b {
-  min-width: 110px;
-  text-align: center;
-  font-size: 13px;
-  color: #444;
-}
-
-/* =========================
-   PAGINATION LOMBA
-   SELALU HORIZONTAL
-========================= */
-
-.event-pagination {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-wrap: nowrap !important;
-  width: 100%;
-  gap: 8px;
-}
-
-.event-pagination .page-btn {
-  flex: 0 0 auto;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
-  .pagination {
-    margin-top: 22px;
-    gap: 6px;
-    padding: 0 10px;
-  }
-
-  .page-btn {
-    min-width: 36px;
-    height: 36px;
-    padding: 0 9px;
-    border-radius: 7px;
-    font-size: 13px;
-  }
-
-  /* Pagination lomba tetap menyamping */
-  .event-pagination {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    gap: 6px;
-    padding: 0;
-  }
-
-  .event-pagination .page-btn {
-    flex: 0 0 36px;
-    width: 36px;
-    min-width: 36px;
-    padding: 0;
-  }
-}
-
-/* =========================
-   HP KECIL
-========================= */
-
-@media (max-width: 480px) {
-  .pagination {
-    gap: 5px;
-    margin-top: 20px;
-  }
-
-  .page-btn {
-    min-width: 34px;
-    height: 34px;
-    padding: 0 8px;
-    font-size: 12px;
-  }
-
-  /* Pagination lomba */
-  .event-pagination {
-    width: 100%;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    gap: 6px;
-    padding: 0;
-  }
-
-  .event-pagination .page-btn {
-    width: 34px;
-    min-width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    padding: 0;
-  }
-
-  /* Pagination peserta */
-  .pagination > span {
-    width: 100%;
-    margin: 0 0 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-
-  .pagination > div {
-    width: 100%;
-    gap: 6px;
-  }
-
-  .pagination > div b {
-    min-width: 95px;
-    font-size: 12px;
-  }
-}
-
-/* =========================
-   HP SANGAT KECIL
-========================= */
-
-@media (max-width: 360px) {
-  .pagination {
-    gap: 4px;
-  }
-
-  .page-btn {
-    min-width: 32px;
-    height: 32px;
-    padding: 0 7px;
-    font-size: 12px;
-  }
-
-  /* Pagination lomba */
-  .event-pagination {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    flex-wrap: nowrap !important;
-    gap: 5px;
-  }
-
-  .event-pagination .page-btn {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    flex: 0 0 32px;
-    padding: 0;
-  }
-
-  .pagination > div b {
-    min-width: 85px;
-    font-size: 11px;
-  }
-}
-
 /* =====================================
    FIX PAGINATION LOMBA - HORIZONTAL
 ===================================== */
@@ -1032,6 +795,7 @@ footer {
   padding: 0 !important;
 }
 
+
 /* SEMUA TOMBOL PAGINATION */
 .event-pagination .page-btn {
   display: inline-flex !important;
@@ -1051,11 +815,13 @@ footer {
   justify-content: center !important;
 }
 
+
 /* =====================================
    MOBILE
 ===================================== */
 
 @media (max-width: 600px) {
+
   .event-pagination {
     width: 100% !important;
 
@@ -1089,11 +855,13 @@ footer {
   }
 }
 
+
 /* =====================================
    HP SANGAT KECIL
 ===================================== */
 
 @media (max-width: 360px) {
+
   .event-pagination {
     gap: 5px !important;
   }
