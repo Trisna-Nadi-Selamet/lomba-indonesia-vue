@@ -816,6 +816,19 @@ footer {
 }
 
 
+.event-pagination .page-btn:hover:not(:disabled) {
+  background: #c91524 !important;
+  border-color: #c91524 !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.event-pagination .page-btn.active {
+  background: #c91524 !important;
+  border-color: #c91524 !important;
+  color: #fff !important;
+}
+
 /* =====================================
    MOBILE
 ===================================== */
